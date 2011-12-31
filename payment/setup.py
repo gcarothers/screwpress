@@ -4,7 +4,7 @@ import sys
 from setuptools import setup, find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
-README = open(os.path.join(here, 'README.txt')).read()
+README = open(os.path.join(here, 'README.md')).read()
 CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
 requires = [
@@ -14,6 +14,9 @@ requires = [
     'pyramid_tm',
     'pyramid_debugtoolbar',
     'zope.sqlalchemy',
+
+    # project specfific
+    'stripe', # pip install --index-url https://code.stripe.com --upgrade stripe
     ]
 
 if sys.version_info[:3] < (2,5,0):
