@@ -32,6 +32,38 @@ from .models import DBSession
 #         self.assertEqual(info['one'].name, 'one')
 #         self.assertEqual(info['project'], 'payment')
 
+
+from .models import (
+    Base,
+    Purchase,
+    Item,
+    )
+
+class TestPurchase(unittest.TestCase):
+    def setUp(self):
+        self.config = testing.setUp()
+        from sqlalchemy import create_engine
+        engine = create_engine('sqlite://')
+        DBSession.configure(bind=engine)
+        Base.metadata.create_all(engine)
+
+
+    def tearDown(self):
+        DBSession.remove()
+        testing.tearDown()
+
+    def test_token(self):
+        with transaction.manager:
+            item = Item(name='TESTING')
+            DBSession.add(item)
+            purchase = Purchase(item, "test@example.org", 9.99)
+            DBSession.add(purchase)
+            encrypted_token = purchase.encrypted_token
+            validation = item.validate_token(encrypted_token)
+            self.assertEquals(validation, 'TESTING:test@example.org')
+
+
+
 from .crypto import encrypt, decrypt
 from Crypto.Random import get_random_bytes
 
