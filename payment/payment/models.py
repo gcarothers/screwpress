@@ -44,12 +44,13 @@ def encrypt(key, plain_text):
     from Crypto.Cipher import AES
     from Crypto.Random import get_random_bytes
     import base64
+    plain_text = plain_text.encode('utf-8')
     pad = AES.block_size - len(plain_text) % AES.block_size 
     data = plain_text + pad * chr(pad)
     iv_bytes = get_random_bytes(AES.block_size)
     key_bytes = key
     encrypted_bytes = iv_bytes + AES.new(key_bytes, AES.MODE_CBC, iv_bytes).encrypt(data)
-    encrypted_string = base64.urlsafe_b64encode(str(encrypted_bytes))
+    encrypted_string = base64.urlsafe_b64encode(encrypted_bytes)
     return encrypted_string
 
 def decrypt(key, encrypted_string):
@@ -61,8 +62,10 @@ def decrypt(key, encrypted_string):
     plain_text = AES.new(key, AES.MODE_CBC, iv_bytes).decrypt(encrypted_bytes)
     pad = ord(plain_text[-1])
     plain_text = plain_text[:-pad]
-    return plain_text
+    return plain_text.decode('utf-8')
 
 class Item(Base):
+    __tablename__ = 'items'
+
     id = Column(Integer, primary_key=True)
     key = Column(Text, unique=True)
