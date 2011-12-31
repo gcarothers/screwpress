@@ -65,7 +65,7 @@ class Purchase(Base):
 
     @property
     def encrypted_token(self):
-        plain_text = str(self)
+        plain_text = unicode(self)
         key = self.item.key
         return encrypt(key, plain_text)
 
