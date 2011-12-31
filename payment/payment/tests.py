@@ -32,11 +32,12 @@ from .models import DBSession
 #         self.assertEqual(info['one'].name, 'one')
 #         self.assertEqual(info['project'], 'payment')
 
+from .crypto import encrypt, decrypt
+from Crypto.Random import get_random_bytes
+
 class TestEncryption(unittest.TestCase):
 
     def test_plain_text_roundtrip(self):
-        from Crypto.Random import get_random_bytes
-        from .models import encrypt, decrypt
         key = get_random_bytes(32)
         plain_text = 'some text'
         ciphertext = encrypt(key, plain_text)
@@ -44,8 +45,6 @@ class TestEncryption(unittest.TestCase):
         self.assertEqual(decrypted_text, plain_text)
 
     def test_plain_text_unicode(self):
-        from Crypto.Random import get_random_bytes
-        from .models import encrypt, decrypt
         key = get_random_bytes(32)
         plain_text = u'Iñtërnâtiônàlizætiøn'
         ciphertext = encrypt(key, plain_text)
