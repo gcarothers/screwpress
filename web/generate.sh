@@ -9,4 +9,4 @@ for file in "$CALABASH_HOME/lib/"*; do
     JAVA_CP="$file:$JAVA_CP"
 done
 
-pandoc $PANDOC_ARGS "$1/book.md" | java --classpath "$JAVA_CP" com.xmlcalabash.drivers.Main ./bookmaker.xpl
+pandoc $PANDOC_ARGS "$1/book.md" | java -classpath "$JAVA_CP" com.xmlcalabash.drivers.Main ./bookmaker.xpl

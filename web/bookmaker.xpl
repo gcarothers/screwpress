@@ -1,5 +1,6 @@
 <p:declare-step xmlns:p="http://www.w3.org/ns/xproc"
 	            xmlns:html="http://www.w3.org/1999/xhtml"
+	            xmlns:fn="http://www.w3.org/2005/xpath-functions"
                 name="compose-book-site"
                 version="1.0">
     
@@ -8,7 +9,7 @@
 
 	<!-- Split out the book's chapter sections. -->
 	<p:for-each name="chapters">
-		<p:iteration-source select="fn:subsequence(/xhtml:section/xhtml:section, 2)">
+		<p:iteration-source select="fn:subsequence(/html:section/html:section, 2)">
 			<p:pipe step="compose-book-site" port="book" />
 		</p:iteration-source>
 
@@ -21,6 +22,6 @@
 				<p:pipe step="chapters" port="current" />
 			</p:with-option>
 		</p:store>
-	</p:filter>
+	</p:for-each>
 
 </p:declare-step>
