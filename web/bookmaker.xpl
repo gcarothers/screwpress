@@ -41,9 +41,18 @@
 			<p:pipe step="chapters" port="current" />
 		</p:variable>
 
-		<p:store name="store-chapters">
+		<p:xslt name="transform-chapter">
 			<p:input port="source">
 				<p:pipe step="chapters" port="current" />
+			</p:input>
+			<p:input port="stylesheet">
+				<p:document href="chapter.xslt" />
+			</p:input>
+		</p:xslt>
+
+		<p:store name="store-chapters">
+			<p:input port="source">
+				<p:pipe step="transform-chapter" port="result" />
 			</p:input>
 			<p:with-option name="href" select="fn:concat(/c:param-set/c:param/@value, '/', $chapter_file_name)">
 				<p:pipe step="xmlizeparameters" port="result" />
