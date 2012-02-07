@@ -1,3 +1,4 @@
+import os
 
 from sqlalchemy import (
     Column,
@@ -58,6 +59,17 @@ class Purchase(Base):
         self.item = item
         self.customer_email = customer_email
         self.price = price
+    
+    def make_files(self, books_directory, purchases_directory):
+        purchase_directory = os.path.join(purchases_directory, self.encrypted_token)
+        os.mkdir(purchase_directory)
+        os.symlink(os.path.join(books_directory, self.item.name),
+                   os.path.join(purchase_directory, 'book')
+        with open(os.path.join(purchase_directory, 'purchase.js'), 'w') as f:
+            self.write_purchase_js(f)
+    
+    def write_purchase_js(f):
+        pass
 
     def __str__(self):
         return "{item}:{email}".format(item=self.item,
